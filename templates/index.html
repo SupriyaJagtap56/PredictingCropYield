@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Crop Yield Prediction</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+    <!-- Font Awesome JS -->
+    <script src="https://kit.fontawesome.com/728d1d3dec.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- For Form -->
+    <script language="Javascript" src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+    <script type="text/JavaScript" src="{{ url_for('static', filename='js/state.js')}}"></script>
+</head>
+
+<body>
+    <div class="svgs">
+        <img src="{{ url_for('static', filename='img/crop.jpg')}}">
+    </div>
+    <div class="page" id="part1">
+        <div class="info">
+            <div class="heading">
+                <div class="title text-primary">Crop Yield Prediction</div>
+                <div class="title-support">using Machine Learning</div>
+            </div>
+            <div class="dev">
+                <div class="text-primary">
+                    <i class="far fa-file-code"></i>&nbsp;Developed by:
+                </div>
+                <ul>
+                    <li>Supriya Jagtap</li>    
+                    <li>Aakanksha Gaikwad </li>
+                    <li>Vinay Dongre</li>
+                    <li>Nilesh Bangar</li>
+                </ul>
+            </div>
+            <div class="btn-grp">
+                <a href="#part3" class="try">
+                    Click Here   
+                </a>
+            </div>
+            
+        </div>
+        <div class="imgContainer">
+            <!-- <img src="imgs/farm1.jpg" alt=""> -->
+            <img src="{{ url_for('static', filename='img/flowers.svg')}}" alt="">
+        </div>
+        <div class="scrollIndicator"></div>
+    </div>
+    <div class="page" id="part2">
+        <div class="card myCard">
+            <div class="myCard-img">
+                <img src="{{ url_for('static', filename='img/input.svg')}}" alt="">
+            </div>
+            <div class="myCard-title text-blue">Enter details</div>
+            <div class="myCard-body ">Provide information for the crop like its type, the area of the farm, the soil category and the district in which it is to be grown</div>
+        </div>
+        <div class="card myCard">
+            <div class="myCard-img">
+                <img src="{{ url_for('static', filename='img/weather.svg')}}" alt="">
+            </div>
+            <div class="myCard-title text-green">Live weather Fetch</div>
+            <div class="myCard-body ">Current weather details like the temperature, humidity, and precipitaion are fetched automatically from the internet to be used for prediction</div>
+        </div>
+        <div class="card myCard">
+            <div class="myCard-img">
+                <img src="{{ url_for('static', filename='img/model.svg')}}" alt="">
+            </div>
+            <div class="myCard-title text-orange">Prediction</div>
+            <div class="myCard-body ">A Random Forest ML model, trained on past 20 years of data, is used to predict the approximate crop yield</div>
+        </div>
+        <div class="scrollIndicator"></div>
+    </div>
+    <div class="container p-5 page" id="part3">
+        <div class="imgContainer">
+            <img src="{{ url_for('static', filename='img/plant.svg')}}" alt="">
+        </div>
+
+
+
+        <!-- Classification-->
+        <div class="card shadow-lg col-6 p-0 mx-auto">
+            <div class="card-header text-primary text-center">
+                <h3><u>Crop Recommender & Yield Predictor</u></h3>
+
+
+            </div>
+            <div class="card-body">
+
+                <form name="CropForm"  action = "{{ url_for('home') }}"  onsubmit="return validateForm()" method="POST" id="CropForm" required>
+
+                    <div class='resp_code frms'>
+
+                          <div id="selection">
+                            <select id="listBox" name="state" onchange='selct_district(this.value)'></select>
+                              <label >District:</label>
+                            <select id='secondlist' name="district"></select>
+
+                              <div class = "badge bg-primary text-wrap " style="width: 10rem;">
+                                  <h6>Soil Information:</h6>
+
+                              </div>
+                              <div class="form-row">
+                              <div class="col-md-4 mb-3">
+                                  <label >1)Nitrogen</label>
+                                  <input type="number" class="form-control" id="n" name="n" step="0.0001" required/>
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <label >2)Phosphorus</label>
+                                  <input type="number" class="form-control" id="p" name="p" step="0.0001">
+                              </div>
+                              <div class="col-md-4 mb-3">
+                                  <label >3)Potassium</label>
+                                  <input type="number" class="form-control" id="k" name="k" step="0.0001">
+                              </div>
+                              </div>
+                              <div class="form-row">
+                                  <div class="col-md-4 mb-3">
+                                  <label >Temperature</label>
+                                  <input type="number" class="form-control" id="temp" name="temperature" step="0.0001">
+                                  </div>
+                                  <div class="col-md-4 mb-3">
+                                  <label >Humidity</label>
+                                  <input type="number" class="form-control" id="humidity" name="humidity" step="0.0001">
+                                  </div>
+                                  <div class="col-md-4 mb-3">
+                                  <label >Ph</label>
+                                  <input type="number" class="form-control" id="ph" name="ph" step="0.0001">
+                              </div>
+
+
+                              </div>
+                              <label >Rainfall</label>
+                                  <input type="number" class="form-control" id="rainfall" name="rainfall" step="0.0001">
+                          </div>
+
+                          <div id="dumdiv" align="center" style=" font-size: 10px;color: #dadada;">
+                            <a id="dum" style="padding-right:0px; text-decoration:none;color: green;text-align:center;" href="#"></a>
+                          </div>
+                        </div>
+                    <!-- -->
+
+                    <div class="container ">
+                        <button type="submit" class="btn btn-primary mx-auto" id="predict">Predict</button>
+                    </div>
+
+
+            </form>
+            <!--<div class="card-footer" id="prediction">
+            </div>-->
+
+
+            </div>
+            </div>
+
+    </div>
+
+
+
+
+
+
+    <script>
+        function validateForm() {
+          var x = document.forms["CropForm"]["state"].value;
+          if (x == "") {
+            alert("State must be filled out");
+            return false;
+          }
+
+
+          var y = document.forms["CropForm"]["n"].value;
+          if (y == "") {
+            alert("Nitrogen must be filled out");
+            return false;
+          }
+
+
+          var z = document.forms["CropForm"]["p"].value;
+          if (z == "") {
+            alert("Phosphorus must be filled out");
+            return false;
+          }
+
+
+          var a = document.forms["CropForm"]["k"].value;
+          if (a == "") {
+            alert("Potassium must be filled out");
+            return false;
+          }
+
+
+          var b = document.forms["CropForm"]["temperature"].value;
+          if (b == "") {
+            alert("Temperature must be filled out");
+            return false;
+          }
+
+
+          var c = document.forms["CropForm"]["humidity"].value;
+          if (c == "") {
+            alert("Humidity must be filled out");
+            return false;
+          }
+
+          var d = document.forms["CropForm"]["ph"].value;
+          if (d == "") {
+            alert("Ph must be filled out");
+            return false;
+          }
+
+          var e = document.forms["CropForm"]["rainfall"].value;
+          if (e == "") {
+            alert("Rainfall must be filled out");
+            return false;
+          }
+
+        }
+    </script>
+
+</body>
+</html>
